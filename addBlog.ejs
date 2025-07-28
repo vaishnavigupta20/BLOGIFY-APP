@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+    <title>Add New Blog – Blogify</title>
+  </head>
+  <body>
+    <%- include('partials/nav') %>
+
+    <div class="container mt-4">
+      <h2>Create a New Blog Post</h2>
+      <form action="/blog" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="coverImg" class="form-label">Cover Image</label>
+          <input
+            type="file"
+            id="coverImg"
+            name="coverImg"
+            class="form-control"
+            accept="image/*"
+          />
+          <img
+            id="preview"
+            src="#"
+            alt="Cover preview"
+            class="img-fluid mt-2"
+            style="display: none; max-height: 300px;"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-control"
+            required
+            minlength="3"
+            maxlength="200"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea
+            id="body"
+            name="body"
+            class="form-control"
+            rows="8"
+            required
+            minlength="10"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <%- include('partials/scripts') %>
+
+    <script>
+      document.getElementById("coverImg").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const preview = document.getElementById("preview");
+          preview.src = reader.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      });
+    </script>
+  </body>
+</html>
